@@ -1,0 +1,19 @@
+﻿# Dependencies
+node_modules/
+.gradle/
+build/
+bin/
+*.class
+
+# Environment
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
