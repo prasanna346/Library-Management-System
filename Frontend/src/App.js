@@ -547,15 +547,6 @@ function App() {
           </div>
         )}
 
-        {/* 0. SYSTEM FLOWCHART & ARCHITECTURE */}
-        {activeTab === 'flowchart' && (
-          <FlowchartView
-            currentUser={user}
-            onNavigateTab={(tab) => setActiveTab(tab)}
-            onOpenAuth={() => setAuthModalOpen(true)}
-          />
-        )}
-
         {/* 1. CATALOG SEARCH & MEMBER FUNCTIONS */}
         {activeTab === 'catalog' && (
           <div>
