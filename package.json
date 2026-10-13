@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Library Management System - React.js, Spring Boot, MySQL",
   "scripts": {
-    "install:all": "npm.cmd install --prefix frontend/myapp",
-    "start:frontend": "npm.cmd start --prefix frontend/myapp",
-    "start:backend": "cd backend/demo && gradlew.bat bootRun",
-    "start": "concurrently \"npm.cmd run start:frontend\" \"npm.cmd run start:backend\""
+    "install:all": "npm install --prefix Frontend",
+    "start:frontend": "npm start --prefix Frontend",
+    "start:backend": "cd Backend && chmod +x gradlew && ./gradlew bootRun",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
