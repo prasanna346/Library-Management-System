@@ -178,10 +178,6 @@ export default function BookDetailModal({
               <MapPin size={15} color="#10b981" /> Locate on Shelf
             </button>
 
-            <button
-              type="button"
-              className="btn-secondary"
-
             {isMember && (
               <button
                 type="button"
