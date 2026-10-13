@@ -4,10 +4,10 @@
   "private": true,
   "description": "Library Management System - React.js, Spring Boot, MySQL",
   "scripts": {
-    "postinstall": "npm install --prefix Frontend",
+    "postinstall": "npm install --prefix Frontend && npm run build --prefix Frontend",
     "build": "npm run build --prefix Frontend",
-    "start": "npm start --prefix Frontend",
-    "start:frontend": "npm start --prefix Frontend",
+    "start": "npx --yes serve -s Frontend/build -l ${PORT:-10000}",
+    "start:frontend": "npx --yes serve -s Frontend/build -l ${PORT:-10000}",
     "start:backend": "cd Backend && chmod +x gradlew && ./gradlew bootRun"
   }
 }
