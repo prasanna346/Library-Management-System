@@ -206,6 +206,9 @@ function App() {
   
   const [userFormOpen, setUserFormOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [manualIssueBookId, setManualIssueBookId] = useState('');
+  const [manualIssueUsername, setManualIssueUsername] = useState('');
+  const [manualIssueSubmitting, setManualIssueSubmitting] = useState(false);
 
   // Smart Feature Modals
   const [aiChatOpen, setAiChatOpen] = useState(false);
@@ -331,6 +334,53 @@ function App() {
     setIssuedBooks(prev => [newIssue, ...prev]);
 
     showNotify(`Book '${book.title}' successfully issued! Return due on ${newIssue.dueDate}.`);
+  };
+
+  const handleManualIssueBook = async (event) => {
+    event.preventDefault();
+    if (!manualIssueBookId || !manualIssueUsername) {
+      showNotify('Please select both a member and a book.');
+      return;
+    }
+
+    const selectedBook = books.find(book => String(book.id) === String(manualIssueBookId));
+    const selectedMember = users.find(member => member.username === manualIssueUsername);
+    if (!selectedBook || !selectedMember) {
+      showNotify('The selected member or book could not be found.');
+      return;
+    }
+    if (selectedBook.availableCopies <= 0) {
+      showNotify('No copies of this book are currently available.');
+      return;
+    }
+
+    setManualIssueSubmitting(true);
+    try {
+      const response = await fetch('/api/books/issue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Name': user?.username || 'librarian'
+        },
+        body: JSON.stringify({
+          bookId: Number(manualIssueBookId),
+          username: manualIssueUsername
+        })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result.error || 'Could not issue this book.');
+      }
+
+      await refreshAllData();
+      setManualIssueBookId('');
+      setManualIssueUsername('');
+      showNotify(`'${selectedBook.title}' issued to ${selectedMember.fullName || selectedMember.username}. Due date: ${result.dueDate || '14 days from today'}.`);
+    } catch (error) {
+      showNotify(error.message || 'Manual book issue failed. Please try again.');
+    } finally {
+      setManualIssueSubmitting(false);
+    }
   };
 
   const handleRenewBook = (issueId) => {
@@ -881,6 +931,56 @@ function App() {
             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
               Process returns, inspect member borrowing accounts, and check fine statuses.
             </p>
+
+            <form
+              onSubmit={handleManualIssueBook}
+              className="glass-card"
+              style={{ marginBottom: '1.5rem', padding: '1.25rem', border: '1px solid var(--border-color, rgba(148,163,184,0.25))' }}
+            >
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <BookCheck size={19} color="var(--primary)" /> Issue a Book Manually
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
+                Librarian/Admin can select a registered member and an available book to record an issue at the library counter.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', alignItems: 'end' }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.85rem', fontWeight: 700 }}>
+                  Select Member
+                  <select
+                    value={manualIssueUsername}
+                    onChange={event => setManualIssueUsername(event.target.value)}
+                    required
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', background: 'var(--input-bg, var(--card-bg))', color: 'var(--text)', border: '1px solid var(--border-color, #64748b)' }}
+                  >
+                    <option value="">Choose a member</option>
+                    {users.filter(member => member.role === 'MEMBER' && member.status !== 'INACTIVE').map(member => (
+                      <option key={member.id || member.username} value={member.username}>
+                        {member.fullName || member.username} (@{member.username})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.85rem', fontWeight: 700 }}>
+                  Select Book
+                  <select
+                    value={manualIssueBookId}
+                    onChange={event => setManualIssueBookId(event.target.value)}
+                    required
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', background: 'var(--input-bg, var(--card-bg))', color: 'var(--text)', border: '1px solid var(--border-color, #64748b)' }}
+                  >
+                    <option value="">Choose an available book</option>
+                    {books.filter(book => Number(book.availableCopies) > 0).map(book => (
+                      <option key={book.id} value={book.id}>
+                        {book.title} — {book.availableCopies} available
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button className="btn-primary" type="submit" disabled={manualIssueSubmitting} style={{ minHeight: '44px', justifyContent: 'center' }}>
+                  <BookCheck size={16} /> {manualIssueSubmitting ? 'Issuing...' : 'Issue Book'}
+                </button>
+              </div>
+            </form>
 
             <div className="table-responsive">
               <table className="custom-table">
