@@ -562,3 +562,103 @@ body {
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
+
+
+/* Ensure login/logout controls remain visible on desktop and mobile */
+.app-header {
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.brand-section {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.nav-pills {
+  display: flex;
+  flex: 1 1 320px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.user-controls {
+  display: flex !important;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-left: auto;
+  min-width: max-content;
+  position: relative;
+  z-index: 101;
+}
+
+.user-controls > button,
+.user-controls .btn-primary,
+.user-controls .btn-secondary {
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex-shrink: 0;
+}
+
+.user-controls > .btn-primary {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  border: 1px solid #818cf8 !important;
+}
+
+.user-controls > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .app-header {
+    padding: 0.85rem 1rem;
+    align-items: flex-start;
+  }
+
+  .brand-section {
+    flex: 1 1 100%;
+  }
+
+  .nav-pills {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+
+  .user-controls {
+    order: 2;
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 1rem;
+  }
+
+  .brand-slogan {
+    font-size: 0.72rem;
+  }
+
+  .user-controls {
+    gap: 0.45rem;
+  }
+
+  .user-controls .btn-primary,
+  .user-controls .btn-secondary {
+    padding: 0.6rem 0.8rem !important;
+  }
+}
