@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BookOpen, LogOut, Sun, Moon, Shield, User, BarChart2,
-  Database, FileText, Search, BookCheck, GitBranch,
+  Database, FileText, Search, BookCheck,
   Sparkles, Bookmark, Mail
 } from 'lucide-react';
 
@@ -34,16 +34,7 @@ export default function Navbar({
         </div>
       </div>
 
-      <nav className="nav-pills">
-        <button
-          className={navClass}
-          onClick={() => setActiveTab('flowchart')}
-          style={{ borderColor: 'rgba(99,102,241,0.4)' }}
-        >
-          <GitBranch size={16} color="var(--primary)" /> System Flowchart
-        </button>
-
-        {user && (
+      <nav className="nav-pills">{user && (
           <>
             <button className={navClass} onClick={() => setActiveTab('catalog')}>
               <Search size={16} /> Search Catalog
