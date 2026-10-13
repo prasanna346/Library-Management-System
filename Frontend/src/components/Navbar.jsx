@@ -120,13 +120,18 @@ export default function Navbar({
               </div>
               <span className="role-badge">{role}</span>
             </div>
-            <button className="icon-action-btn" onClick={onLogout} title="Logout">
-              <LogOut size={18} color="#ef4444" />
+            <button
+              className="btn-secondary"
+              onClick={onLogout}
+              title="Logout from your account"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', padding: '0.55rem 0.85rem', whiteSpace: 'nowrap' }}
+            >
+              <LogOut size={16} color="#ef4444" /> Logout
             </button>
           </div>
         ) : (
-          <button className="btn-primary" onClick={onOpenAuth}>
-            Sign In / Register
+          <button className="btn-primary" onClick={onOpenAuth} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', whiteSpace: 'nowrap' }}>
+            <User size={16} /> Login / Register
           </button>
         )}
       </div>
