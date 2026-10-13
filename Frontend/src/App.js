@@ -7,7 +7,6 @@ import UserFormModal from './components/UserFormModal';
 import ReportsView from './components/ReportsView';
 import SystemLogsView from './components/SystemLogsView';
 import BackupView from './components/BackupView';
-import FlowchartView from './components/FlowchartView';
 import AIChatModal from './components/AIChatModal';
 import ShelfLocatorModal from './components/ShelfLocatorModal';
 import EBookReaderModal from './components/EBookReaderModal';
@@ -441,7 +440,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
         refreshAllData();
-        const fineText = data.fine > 0 ? ` Overdue fine assessed: â‚¹${data.fine.toFixed(2)} INR.` : ' No fine due.';
+        const fineText = data.fine > 0 ? ` Overdue fine assessed: ₹${data.fine.toFixed(2)} INR.` : ' No fine due.';
         showNotify(`Book returned successfully!${fineText}`);
       })
       .catch(() => {
@@ -653,7 +652,7 @@ function App() {
                       
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0.35rem 0' }}>
                         <div style={{ color: '#10b981', fontWeight: 800, fontSize: '0.88rem' }}>
-                          â‚¹{(book.price || 499).toLocaleString('en-IN')} INR
+                          ₹{(book.price || 499).toLocaleString('en-IN')} INR
                         </div>
                         <div 
                           onClick={() => { setSelectedBookForFeature(book); setShelfLocatorOpen(true); }}
@@ -722,7 +721,7 @@ function App() {
               <BookCheck size={22} color="var(--primary)" /> My Issued Books & Due Trackers
             </h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
-              Track books issued to your account, due dates, fines (â‚¹10/day overdue), and execute online renewals.
+              Track books issued to your account, due dates, fines (₹10/day overdue), and execute online renewals.
             </p>
 
             <div className="table-responsive">
@@ -763,9 +762,9 @@ function App() {
                           </td>
                           <td>
                             {item.fineAmount > 0 || isOverdue ? (
-                              <span style={{ color: '#f59e0b', fontWeight: 700 }}>â‚¹{(item.fineAmount || 0).toFixed(2)} INR</span>
+                              <span style={{ color: '#f59e0b', fontWeight: 700 }}>₹{(item.fineAmount || 0).toFixed(2)} INR</span>
                             ) : (
-                              <span style={{ color: 'var(--text-muted)' }}>â‚¹0.00</span>
+                              <span style={{ color: 'var(--text-muted)' }}>₹0.00</span>
                             )}
                           </td>
                           <td>
@@ -830,7 +829,7 @@ function App() {
                     <th>Title & Author</th>
                     <th>Category</th>
                     <th>ISBN</th>
-                    <th>Cost (â‚¹ INR)</th>
+                    <th>Cost (₹ INR)</th>
                     <th>Copies (Avail / Total)</th>
                     <th>Shelf Location</th>
                     <th>Actions</th>
@@ -846,7 +845,7 @@ function App() {
                       <td><span className="book-category">{b.category}</span></td>
                       <td><code>{b.isbn}</code></td>
                       <td>
-                        <strong style={{ color: '#10b981' }}>â‚¹{(b.price || 499).toLocaleString('en-IN')}</strong>
+                        <strong style={{ color: '#10b981' }}>₹{(b.price || 499).toLocaleString('en-IN')}</strong>
                       </td>
                       <td>
                         <strong>{b.availableCopies}</strong> / {b.totalCopies}
