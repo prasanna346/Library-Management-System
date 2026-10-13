@@ -1,14 +1,13 @@
 {
   "name": "library-management-system",
   "version": "1.0.0",
+  "private": true,
   "description": "Library Management System - React.js, Spring Boot, MySQL",
   "scripts": {
-    "install:all": "npm install --prefix Frontend",
+    "postinstall": "npm install --prefix Frontend",
+    "build": "npm run build --prefix Frontend",
+    "start": "npm start --prefix Frontend",
     "start:frontend": "npm start --prefix Frontend",
-    "start:backend": "cd Backend && chmod +x gradlew && ./gradlew bootRun",
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+    "start:backend": "cd Backend && chmod +x gradlew && ./gradlew bootRun"
   }
 }
